@@ -45,5 +45,47 @@
         android:onClick="postFileAsync"
         android:text="post file async" />
 
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="accessHeaders"
+        android:text="AccessHeaders" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="Authenticate"
+        android:text="Authenticate" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="CacheResponse"
+        android:text="CacheResponse" />
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="CancelCall"
+        android:text="CancelCall" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="LoggingInterceptor"
+        android:text="LoggingInterceptor" />
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="PerCallSettings"
+        android:text="PerCallSettings" />
+
 </LinearLayout>
 

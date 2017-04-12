@@ -14,6 +14,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import okhttp3.guide.PostExample;
+import okhttp3.recipes.AccessHeaders;
+import okhttp3.recipes.Authenticate;
+import okhttp3.recipes.CacheResponse;
+import okhttp3.recipes.CancelCall;
+import okhttp3.recipes.LoggingInterceptors;
+import okhttp3.recipes.PerCallSettings;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "wang";
@@ -70,6 +76,89 @@ public class MainActivity extends AppCompatActivity {
 
     public void postFileAsync(View v) {
         MyHttpClient.postFileAsync();
+    }
+
+
+    public void accessHeaders(View v) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    AccessHeaders.main();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+    public void Authenticate(View v) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Authenticate.main();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+    public void CacheResponse(View v) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    CacheResponse.main(getApplicationContext());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+    public void CancelCall(View v) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    CancelCall.main();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public void LoggingInterceptor(View v) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    LoggingInterceptors.main();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+
+    public void PerCallSettings(View v) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    PerCallSettings.main();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private boolean addPermission(Activity activity, String permission) {

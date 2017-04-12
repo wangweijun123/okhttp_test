@@ -15,6 +15,8 @@
  */
 package okhttp3.recipes;
 
+import com.le.www.testokhttpresource.MainActivity;
+
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -31,7 +33,7 @@ public final class LoggingInterceptors {
 
   public void run() throws Exception {
     Request request = new Request.Builder()
-        .url("https://publicobject.com/helloworld.txt")
+        .url(MainActivity.url)// "https://publicobject.com/helloworld.txt"
         .build();
 
     Response response = client.newCall(request).execute();

@@ -47,8 +47,10 @@ public final class Authenticate {
   }
 
   public void run() throws Exception {
+     String credential = Credentials.basic("jesse", "password1");
     Request request = new Request.Builder()
         .url("http://publicobject.com/secrets/hellosecret.txt")
+            .addHeader("Authorization", credential)
         .build();
 
     try (Response response = client.newCall(request).execute()) {

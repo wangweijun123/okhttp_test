@@ -15,6 +15,8 @@
  */
 package okhttp3.recipes;
 
+import android.content.Context;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -63,7 +65,7 @@ public final class CacheResponse {
     System.out.println("Response 2 equals Response 1? " + response1Body.equals(response2Body));
   }
 
-  public static void main(String... args) throws Exception {
-    new CacheResponse(new File("CacheResponse.tmp")).run();
+  public static void main(Context context) throws Exception {
+    new CacheResponse(new File(context.getCacheDir(), "CacheResponse.tmp")).run();
   }
 }
