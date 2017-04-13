@@ -31,7 +31,7 @@ public final class PostFile {
   private final OkHttpClient client = new OkHttpClient();
 
   public void run() throws Exception {
-    File file = new File("README.md");
+    File file = new File("/sdcard/test_mk.md");
 
     Request request = new Request.Builder()
         .url("https://api.github.com/markdown/raw")
@@ -40,8 +40,9 @@ public final class PostFile {
 
     try (Response response = client.newCall(request).execute()) {
       if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
+      System.out.println("###########");
       System.out.println(response.body().string());
+      System.out.println("###########");
     }
   }
 

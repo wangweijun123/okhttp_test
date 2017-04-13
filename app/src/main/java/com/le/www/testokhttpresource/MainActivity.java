@@ -20,6 +20,7 @@ import okhttp3.recipes.CacheResponse;
 import okhttp3.recipes.CancelCall;
 import okhttp3.recipes.LoggingInterceptors;
 import okhttp3.recipes.PerCallSettings;
+import okhttp3.recipes.PostFile;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "wang";
@@ -160,6 +161,21 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+
+    public void PostFile(View v) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    PostFile.main();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
 
     private boolean addPermission(Activity activity, String permission) {
         if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
