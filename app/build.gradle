@@ -29,4 +29,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':okhttp')
     compile 'com.squareup.moshi:moshi:1.4.0'
+    compile 'com.facebook.stetho:stetho:1.4.2'
 }
