@@ -162,8 +162,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
     }
-
-
     public void PostFile(View v) {
         new Thread(new Runnable() {
             @Override
@@ -176,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+
 
 
     public void more(View v) {

@@ -10,8 +10,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="get sync"
-        android:onClick="getMethodSync"
+        android:text="OkHttpContributors"
+        android:onClick="OkHttpContributors"
         android:layout_marginTop="7dp"/>
 
 </LinearLayout>
