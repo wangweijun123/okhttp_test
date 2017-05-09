@@ -15,6 +15,8 @@
  */
 package okhttp3;
 
+import android.util.Log;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,10 +45,12 @@ public final class Dispatcher {
   /** Executes calls. Created lazily. */
   private ExecutorService executorService;
 
+  /** 缓存队列,但这并不是请求队列，只是作一个引用，作用：是否立马进入runningAsynDeque队列，还是进入缓存队列*/
   /** Ready async calls in the order they'll be run. */
   private final Deque<AsyncCall> readyAsyncCalls = new ArrayDeque<>();
 
   /** Running asynchronous calls. Includes canceled calls that haven't finished yet. */
+  /** 运行队列，但这并不是请求队列，只是作一个引用，作用：是否立马进入runningAsynDeque队列，还是进入缓存队列*/
   private final Deque<AsyncCall> runningAsyncCalls = new ArrayDeque<>();
 
   /** Running synchronous calls. Includes canceled calls that haven't finished yet. */
@@ -125,6 +129,7 @@ public final class Dispatcher {
 
   synchronized void enqueue(AsyncCall call) {
     if (runningAsyncCalls.size() < maxRequests && runningCallsForHost(call) < maxRequestsPerHost) {
+      Log.i("wang", this + "  runningAsyncCalls add call");
       runningAsyncCalls.add(call);
       executorService().execute(call);
     } else {

@@ -55,7 +55,7 @@ public final class RewriteResponseCacheControl {
           .build();
 
       OkHttpClient clientForCall;
-      if (i == 2) {
+      if (i >= 2) {
         // Force this request's response to be written to the cache. This way, subsequent responses
         // can be read from the cache.
         System.out.println("Force cache: true");
@@ -69,14 +69,16 @@ public final class RewriteResponseCacheControl {
 
       try (Response response = clientForCall.newCall(request).execute()) {
         if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
-
-        System.out.println("    Network: " + (response.networkResponse() != null));
+        System.out.println("    response: " + (response != null));
+        System.out.println("    Network response: " + (response.networkResponse() != null));
+        System.out.println("    Cache response: " + (response.cacheResponse() != null));
         System.out.println();
       }
     }
   }
 
   public static void main(String... args) throws Exception {
-    new RewriteResponseCacheControl(new File("RewriteResponseCacheControl.tmp")).run();
+//    new RewriteResponseCacheControl(new File("RewriteResponseCacheControl.tmp")).run();
+    new RewriteResponseCacheControl(new File("/sdcard/RewriteResponseCacheControl")).run();
   }
 }

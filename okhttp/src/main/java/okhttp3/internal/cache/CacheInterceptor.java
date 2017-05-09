@@ -43,6 +43,10 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static okhttp3.internal.Util.closeQuietly;
 import static okhttp3.internal.Util.discard;
 
+/**
+ * 读取cache，缓存response
+ */
+
 /** Serves requests from the cache and writes responses to the cache. */
 public final class CacheInterceptor implements Interceptor {
   final InternalCache cache;
@@ -56,7 +60,7 @@ public final class CacheInterceptor implements Interceptor {
     Response cacheCandidate = cache != null
         ? cache.get(chain.request())
         : null;
-
+    Log.i("wang", "CacheInterceptor  cacheCandidate==null:" + (cacheCandidate==null));
     long now = System.currentTimeMillis();
 
     CacheStrategy strategy = new CacheStrategy.Factory(now, chain.request(), cacheCandidate).get();
@@ -72,6 +76,8 @@ public final class CacheInterceptor implements Interceptor {
     }
 
     // If we're forbidden from using the network and the cache is insufficient, fail.
+    Log.i("wang", "CacheInterceptor networkRequest == null ? "+(networkRequest == null)
+            + ", cacheResponse == null:"+(cacheResponse == null));
     if (networkRequest == null && cacheResponse == null) {
       return new Response.Builder()
           .request(chain.request())
@@ -128,7 +134,9 @@ public final class CacheInterceptor implements Interceptor {
         .networkResponse(stripBody(networkResponse))
         .build();
 
-    if (HttpHeaders.hasBody(response)) {
+    boolean hasBody = HttpHeaders.hasBody(response);
+    Log.i("wang", "CacheInterceptor hasBody:"+hasBody);
+    if (hasBody) {
       CacheRequest cacheRequest = maybeCache(response, networkResponse.request(), cache);
       response = cacheWritingResponse(cacheRequest, response);
     }
@@ -147,7 +155,9 @@ public final class CacheInterceptor implements Interceptor {
     if (responseCache == null) return null;
 
     // Should we cache this response for this request?
-    if (!CacheStrategy.isCacheable(userResponse, networkRequest)) {
+    boolean isCacheable = CacheStrategy.isCacheable(userResponse, networkRequest);
+    Log.i("wang", "CacheInterceptor isCacheable:"+isCacheable);
+    if (!isCacheable) {
       if (HttpMethod.invalidatesCache(networkRequest.method())) {
         try {
           responseCache.remove(networkRequest);
@@ -176,7 +186,7 @@ public final class CacheInterceptor implements Interceptor {
 
     final BufferedSource source = response.body().source();
     final BufferedSink cacheBody = Okio.buffer(cacheBodyUnbuffered);
-
+    Log.i("wang", "cacheWritingResponse ...");
     Source cacheWritingSource = new Source() {
       boolean cacheRequestClosed;
 

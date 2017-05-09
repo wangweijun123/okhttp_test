@@ -15,6 +15,8 @@
  */
 package okhttp3;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ import okhttp3.internal.http.CallServerInterceptor;
 import okhttp3.internal.http.RealInterceptorChain;
 import okhttp3.internal.http.RetryAndFollowUpInterceptor;
 import okhttp3.internal.platform.Platform;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 import static okhttp3.internal.platform.Platform.INFO;
 
@@ -59,11 +62,13 @@ final class RealCall implements Call {
     }
     captureCallStackTrace();
     try {
+      // 添加到运行队列 <ArrayDeque>runningSyncCalls中
       client.dispatcher().executed(this);
       Response result = getResponseWithInterceptorChain();
       if (result == null) throw new IOException("Canceled");
       return result;
     } finally {
+      //获取到结果后，从runningSyncCalls中移除
       client.dispatcher().finished(this);
     }
   }
@@ -124,9 +129,11 @@ final class RealCall implements Call {
     }
 
     @Override protected void execute() {
+      Log.i("wang", "AsyncCall execute...");
       boolean signalledCallback = false;
       try {
         Response response = getResponseWithInterceptorChain();
+        Log.i("wang", "AsyncCall getResponseWithInterceptorChain finised");
         if (retryAndFollowUpInterceptor.isCanceled()) {
           signalledCallback = true;
           responseCallback.onFailure(RealCall.this, new IOException("Canceled"));
@@ -164,6 +171,7 @@ final class RealCall implements Call {
   Response getResponseWithInterceptorChain() throws IOException {
     // Build a full stack of interceptors.
     List<Interceptor> interceptors = new ArrayList<>();
+    interceptors.add(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
     interceptors.addAll(client.interceptors());
     interceptors.add(retryAndFollowUpInterceptor);
     interceptors.add(new BridgeInterceptor(client.cookieJar()));

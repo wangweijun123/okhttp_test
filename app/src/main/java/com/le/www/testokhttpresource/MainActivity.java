@@ -11,6 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -48,6 +52,19 @@ public class MainActivity extends AppCompatActivity {
                     ex.printStackTrace();
                     Log.i("wang", "exception..");
                 }
+
+                try {
+                    //  mapi.letvstore.com/111.206.211.235
+                    List<InetAddress> addresses = Arrays.asList(InetAddress.getAllByName("action.letvstore.com"));
+                    for (int i = 0, size = addresses.size(); i < size; i++) {
+                        InetAddress inetAddress = addresses.get(i);
+                        Log.i("wang", "inetAddress.toString() : "+inetAddress.toString());
+                    }
+                }catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+
             }
         }).start();
     }

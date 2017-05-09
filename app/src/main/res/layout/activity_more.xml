@@ -14,5 +14,19 @@
         android:onClick="OkHttpContributors"
         android:layout_marginTop="7dp"/>
 
+    <Button
+        android:id="@+id/button11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="RewriteResponseCacheControl"
+        android:text="缓存控制" />
+
+    <Button
+        android:id="@+id/button12"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="CacheResponse"
+        android:text="缓存response" />
+
 </LinearLayout>
 

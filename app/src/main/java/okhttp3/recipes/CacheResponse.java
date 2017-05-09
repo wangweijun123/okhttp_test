@@ -65,6 +65,7 @@ public final class CacheResponse {
     System.out.println("Response 2 equals Response 1? " + response1Body.equals(response2Body));
   }
 
+
   public static void main(Context context) throws Exception {
     new CacheResponse(new File(context.getCacheDir(), "CacheResponse.tmp")).run();
   }

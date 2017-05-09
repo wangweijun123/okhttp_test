@@ -25,6 +25,7 @@ public class MyHttpClient {
     // post body里面是什么参数就写什么类型的content_type
 //    public static final MediaType mediaType
 //            = MediaType.parse("application/json; charset=UTF-8");
+    // mediaType是什么就告诉RequestBody 是什么
     public static final MediaType mediaType
             = MediaType.parse("application/x-www-form-urlencoded; charset=UTF-8");
     /**
