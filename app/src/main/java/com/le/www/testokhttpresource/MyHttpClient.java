@@ -71,6 +71,7 @@ public class MyHttpClient {
 
 
     /**
+     * 指定请求参数media type
      * post 异步请求
      */
     public static void postAsync() {

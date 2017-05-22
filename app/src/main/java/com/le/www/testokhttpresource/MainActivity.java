@@ -14,10 +14,13 @@ import android.view.View;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import okhttp3.guide.GetExample;
 import okhttp3.guide.PostExample;
 import okhttp3.recipes.AccessHeaders;
 import okhttp3.recipes.Authenticate;
@@ -46,23 +49,40 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-//                    GetExample.get();
-                    MyHttpClient.getSync(url);
+                    GetExample.get();
+//                    MyHttpClient.getSync(url);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                     Log.i("wang", "exception..");
                 }
 
-                try {
-                    //  mapi.letvstore.com/111.206.211.235
-                    List<InetAddress> addresses = Arrays.asList(InetAddress.getAllByName("action.letvstore.com"));
-                    for (int i = 0, size = addresses.size(); i < size; i++) {
-                        InetAddress inetAddress = addresses.get(i);
-                        Log.i("wang", "inetAddress.toString() : "+inetAddress.toString());
-                    }
-                }catch (Exception ex) {
-                    ex.printStackTrace();
-                }
+//                try {
+//                    //  mapi.letvstore.com/111.206.211.235
+//                    List<InetAddress> addresses = Arrays.asList(InetAddress.getAllByName("action.letvstore.com"));
+//                    for (int i = 0, size = addresses.size(); i < size; i++) {
+//                        InetAddress inetAddress = addresses.get(i);
+//                        Log.i("wang", "inetAddress.toString() : "+inetAddress.toString());
+//                    }
+//                }catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//                int hour = SysToDate().getHours();
+//                Log.i("wangwj", "hour " + hour);
+//                for (int i=0; i<30; i++) {
+//                    Random random = new Random();
+//                    int r = random.nextInt(30);
+//                    Log.i("wangwj", "r:"+r);
+//                }
+
+
+
+//                for (int i=0; i<10; i++) {
+//                    double random =  Math.random();// equal to 0.0 and less than 1.0
+//                    double result = random * 3  + 5;
+//                    double hh = result * 60 * 60 * 1000;
+//                    long de = (long)hh;
+//                    Log.i("wangwj", "random:"+random+ ", result:"+result + ",hh:"+hh + ",de:"+de);
+//                }
 
 
             }
@@ -226,5 +246,12 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static Date SysToDate() {
+        Date date = null;
+        long now = System.currentTimeMillis();
+        date = new Date(now);
+        return date;
     }
 }

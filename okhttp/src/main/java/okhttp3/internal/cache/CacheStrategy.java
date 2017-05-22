@@ -15,6 +15,8 @@
  */
 package okhttp3.internal.cache;
 
+import android.util.Log;
+
 import java.util.Date;
 import okhttp3.CacheControl;
 import okhttp3.Headers;
@@ -39,6 +41,7 @@ import static java.net.HttpURLConnection.HTTP_REQ_TOO_LONG;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
+ * 缓存策略 (get请求与response为 200)
  * Given a request and cached response, this figures out whether to use the network, the cache, or
  * both.
  *
@@ -183,23 +186,30 @@ public final class CacheStrategy {
     private CacheStrategy getCandidate() {
       // No cached response.
       if (cacheResponse == null) {
+        Log.i("wang","没有缓存");
         return new CacheStrategy(request, null);
       }
 
       // Drop the cached response if it's missing a required handshake.
       if (request.isHttps() && cacheResponse.handshake() == null) {
+        Log.i("wang","Drop the cached response if it's missing a required handshake");
         return new CacheStrategy(request, null);
       }
 
       // If this response shouldn't have been stored, it should never be used
       // as a response source. This check should be redundant as long as the
       // persistence store is well-behaved and the rules are constant.
-      if (!isCacheable(cacheResponse, request)) {
+      boolean flag = isCacheable(cacheResponse, request);
+      Log.i("wang","isCacheable 可以用缓存吗 :"+flag);
+      if (!flag) {
+        Log.i("wang","不用缓存");
         return new CacheStrategy(request, null);
       }
 
       CacheControl requestCaching = request.cacheControl();
       if (requestCaching.noCache() || hasConditions(request)) {
+        Log.i("wang","requestCaching.noCache() ? "+(requestCaching.noCache())
+                + ", hasConditions(request) ? "+ hasConditions(request));
         return new CacheStrategy(request, null);
       }
 
@@ -220,8 +230,13 @@ public final class CacheStrategy {
       if (!responseCaching.mustRevalidate() && requestCaching.maxStaleSeconds() != -1) {
         maxStaleMillis = SECONDS.toMillis(requestCaching.maxStaleSeconds());
       }
+      boolean f1 = responseCaching.noCache();
+      boolean f2 = ageMillis + minFreshMillis < freshMillis + maxStaleMillis;
+      Log.i("wang","ageMillis:"+ageMillis+", minFreshMillis:"+minFreshMillis);
+      Log.i("wang","freshMillis:"+freshMillis+", maxStaleMillis:"+maxStaleMillis);
 
-      if (!responseCaching.noCache() && ageMillis + minFreshMillis < freshMillis + maxStaleMillis) {
+      Log.i("wang","f1:"+f1+", f2:"+f2);
+      if (!f1 && f2) {
         Response.Builder builder = cacheResponse.newBuilder();
         if (ageMillis + minFreshMillis >= freshMillis) {
           builder.addHeader("Warning", "110 HttpURLConnection \"Response is stale\"");
@@ -247,6 +262,7 @@ public final class CacheStrategy {
         conditionName = "If-Modified-Since";
         conditionValue = servedDateString;
       } else {
+        Log.i("wang","No condition! Make a regular request");
         return new CacheStrategy(request, null); // No condition! Make a regular request.
       }
 
@@ -256,6 +272,8 @@ public final class CacheStrategy {
       Request conditionalRequest = request.newBuilder()
           .headers(conditionalRequestHeaders.build())
           .build();
+
+      Log.i("wang","############");
       return new CacheStrategy(conditionalRequest, cacheResponse);
     }
 

@@ -38,8 +38,10 @@ public final class CacheResponse {
   }
 
   public void run() throws Exception {
+    //
+    // http://publicobject.com/helloworld.txt
     Request request = new Request.Builder()
-        .url("http://publicobject.com/helloworld.txt")
+        .url("http://123.125.91.30/api34/mapi/coop/business")
         .build();
 
     String response1Body;

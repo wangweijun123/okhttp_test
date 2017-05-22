@@ -15,6 +15,8 @@
  */
 package okhttp3.internal.connection;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
@@ -147,19 +149,23 @@ public final class StreamAllocation {
       boolean connectionRetryEnabled) throws IOException {
     Route selectedRoute;
     synchronized (connectionPool) {
+      Log.i("wang", this + " findConnection released:"+released+", codec:"+codec+", canceled:"+canceled);
       if (released) throw new IllegalStateException("released");
       if (codec != null) throw new IllegalStateException("codec != null");
       if (canceled) throw new IOException("Canceled");
 
       // Attempt to use an already-allocated connection.
       RealConnection allocatedConnection = this.connection;
+      Log.i("wang", this + " findConnection allocatedConnection:"+allocatedConnection);
       if (allocatedConnection != null && !allocatedConnection.noNewStreams) {
+        Log.i("wang", this + " use an already-allocated connection");
         return allocatedConnection;
       }
 
       // Attempt to get a connection from the pool.
       Internal.instance.get(connectionPool, address, this, null);
       if (connection != null) {
+        Log.i("wang", this + " get a connection from the pool");
         return connection;
       }
 
@@ -178,12 +184,17 @@ public final class StreamAllocation {
       // Now that we have an IP address, make another attempt at getting a connection from the pool.
       // This could match due to connection coalescing.
       Internal.instance.get(connectionPool, address, this, selectedRoute);
-      if (connection != null) return connection;
+      Log.i("wang", this + " connection:"+connection);
+      if (connection != null) {
+        Log.i("wang", this + " Now that we have an IP address get a connection from the pool");
+        return connection;
+      }
 
       // Create a connection and assign it to this allocation immediately. This makes it possible
       // for an asynchronous cancel() to interrupt the handshake we're about to do.
       route = selectedRoute;
       refusedStreamCount = 0;
+      Log.i("wang", this + " new RealConnection");
       result = new RealConnection(connectionPool, selectedRoute);
       acquire(result);
     }

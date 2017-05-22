@@ -45,6 +45,10 @@ import static okhttp3.internal.Util.discard;
 
 /**
  * 读取cache，缓存response
+ * //在 ConnectInterceptor 之前添加的一个拦截器，也就是说，
+ * 在建立连接之前需要看看是否有可用缓存，如果可以则直接返回缓存，
+ * 否则就继续建立网络连接等操作
+ //代码较长、这里贴出核心部分(OkHttp 缓存处理逻辑)
  */
 
 /** Serves requests from the cache and writes responses to the cache. */
@@ -70,7 +74,7 @@ public final class CacheInterceptor implements Interceptor {
     if (cache != null) {
       cache.trackResponse(strategy);
     }
-
+    //无可用缓存，放弃
     if (cacheCandidate != null && cacheResponse == null) {
       closeQuietly(cacheCandidate.body()); // The cache candidate wasn't applicable. Close it.
     }
