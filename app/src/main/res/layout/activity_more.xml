@@ -28,5 +28,12 @@
         android:onClick="CacheResponse"
         android:text="缓存response" />
 
+    <Button
+        android:id="@+id/button13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="testOkhttpClientSingleInstance"
+        android:text="单例okhttpclient" />
+
 </LinearLayout>
 
