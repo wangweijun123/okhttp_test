@@ -1,0 +1,26 @@
+
+1， 各种网络api(HttpClient, HttpUrlconnection, volley, okhttp)
+
+android os <2.3  httpclient
+android os > 2.3 httpurlconnection
+
+tcp/ip 七层模型
+
+tcp 建立连接的三次握手，四次挥手
+
+HTTPS = http + tsl
+
+HTTP+加密+认证+完成性保护=HTTPS。
+
+
+2, 线程池
+作用: 重用，
+
+从广义来讲，CPU硬件的升级，多核,减少CPU闲置时间
+
+线程池大小
+
+过少: 增加了cpu闲置时间，
+过多: 线程调度切换增加压力，jvm内存过大
+
+Dispatcher  任务调度器,因为里面有threadpool, dequeue
