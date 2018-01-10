@@ -32,11 +32,14 @@ import okhttp3.internal.connection.StreamAllocation;
  */
 public final class RealInterceptorChain implements Interceptor.Chain {
   private final List<Interceptor> interceptors;
+  private final Request request;
+
+  // 下面属性会在执行各个拦截器的过程中一步一步赋值
   private final StreamAllocation streamAllocation;
   private final HttpCodec httpCodec;
   private final RealConnection connection;
   private final int index;
-  private final Request request;
+
   private int calls;
 
   public RealInterceptorChain(List<Interceptor> interceptors, StreamAllocation streamAllocation,

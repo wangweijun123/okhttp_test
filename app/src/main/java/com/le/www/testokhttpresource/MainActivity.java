@@ -11,12 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -112,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+    public void postAsync(View v) {
+        PostExample.postAsync();
+    }
+
 
     public void postFileAsync(View v) {
         MyHttpClient.postFileAsync();
